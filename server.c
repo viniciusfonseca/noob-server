@@ -108,6 +108,7 @@ int main()
     socklen_t addr_size;
     struct sockaddr_storage client_addr;
     char buffer[1000000];
+    char * res_format = "HTTP/1.1 %d OK\nServer: server.c\nContent-Type: text/plain\nContent-Length: %ld\n\n%s";
 
     while (1)
     {
@@ -149,7 +150,7 @@ int main()
                 char *content = "Hello World";
                 ssize_t content_length = strlen(content);
                 unsigned int status = 200;
-                sprintf(buffer, "HTTP/1.1 %d OK\nServer: server.c\nContent-Type: text/plain\nContent-Length: %ld\n\n%s", status, content_length, content);
+                sprintf(buffer, res_format, status, content_length, content);
                 ssize_t buffer_len = strlen(buffer);
                 send_status = send(events[n].data.fd, buffer, buffer_len, 0);
                 if (send_status == -1)
